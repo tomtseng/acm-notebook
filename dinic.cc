@@ -10,7 +10,6 @@ typedef struct {
   int cap;
 } edge;
 
-int n, m;
 vector<int> ai[MAXN];
 vector<edge> el;
 int lev[MAXN];
@@ -18,7 +17,8 @@ int SRC;
 int DST;
 vector<int> lai[MAXN];
 unsigned ng[MAXN];
-vector<int> path;
+int path[MAXN];
+int pathsz;
 
 void addedge(int u, int v, int c) {
   const int idx = el.size();
@@ -30,9 +30,9 @@ void addedge(int u, int v, int c) {
 }
 
 bool buildlevel() {
-  for (int i = 0; i <= n; i++)
+  for (int i = 0; i < MAXN; i++)
     lai[i].clear();
-  fill(lev, lev + n + 1, 0);
+  fill(lev, lev + MAXN, 0);
   queue<int> q;
   q.push(SRC);
   lev[SRC] = 1;
@@ -65,7 +65,7 @@ int dfs(int v) {
     if (e.cap > 0) {
       int fl = dfs(e.to);
       if (fl > 0) {
-        path.push_back(lai[v][ng[v]]);
+        path[pathsz++] = lai[v][ng[v]];
         return min(fl, e.cap);
       }
     }
@@ -77,15 +77,15 @@ ll maxflow(int src, int dst) {
   SRC = src, DST = dst;
   ll ret = 0;
   while (buildlevel()) {
-    fill(ng, ng + n + 1, 0);
+    fill(ng, ng + MAXN, 0);
     int fl;
     while ((fl = dfs(SRC)) > 0) {
       ret += fl;
-      for (auto idx : path) {
-        el[idx].cap -= fl;
-        el[idx ^ 1].cap += fl;
+      for (int i = 0; i < pathsz; i++) {
+        el[path[i]].cap -= fl;
+        el[path[i] ^ 1].cap += fl;
       }
-      path.clear();
+      pathsz = 0;
     }
   }
   return ret;
@@ -94,6 +94,7 @@ ll maxflow(int src, int dst) {
 int main() {
   ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
+  int n, m;
   cin >> n >> m;
   for (int i = 0; i < m; i++) {
     int a, b, c;
