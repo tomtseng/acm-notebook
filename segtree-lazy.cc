@@ -1,5 +1,26 @@
-// SPOJ - HORRIBLE
-// Range increment, range sum segtree
+/*
+ * Segtree supporting range increment and range sum.
+ *
+ * When modifying this to support other functions, you probably want to change
+ * the body of update() to look like this:
+ *
+ *    if (ql == l && qr == r) {...}
+ *    push_lazy(v, l, r);
+ *    const int m = (l + r) / 2;
+ *    if (ql <= m)
+ *      update(2 * v, ql, min(qr, m), l, m, x);
+ *    else
+ *      push_lazy(2 * v, l, m);
+ *    if (qr > m)
+ *      update(2 * v + 1, max(m + 1, ql), qr, m + 1, r, x);
+ *    else
+ *      push_lazy(2 * v + 1, m + 1, r);
+ *    A[v] = f(A[2 * v], A[2 * v  + 1]);
+ *
+ * Problem Description
+ * -------------------
+ * SPOJ - HORRIBLE
+ */
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;

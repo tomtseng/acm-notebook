@@ -1,17 +1,19 @@
-// Crude Bignum class for non-negative integers. Doesn't support many operations
-// and is quite fragile. Nonetheless, it might be useful in a pinch.
-// TODO: clean this up and extend it
-//
-// Problem description
-// -------------------
-// USACO training pages: vans
-// I came up with a way to solve this by deriving a recurrence, encoding this
-// recurrence as an 8x8 matrix, and then doing fast exponentiation. It's the
-// same idea as is given in the USACO solution.
-// But I didn't actually want to code that up, so instead I cheated by looking
-// up a simpler recurrence through  OEIS. In retrospect, this wasn't much easier
-// to implement since I had to additionally implement multiplication and
-// subtraction for big numbers.
+/* 
+ * Crude Bignum class for non-negative integers. Doesn't support many operations
+ * and is quite fragile. Nonetheless, it might be useful in a pinch.
+ * TODO: clean this up and extend it
+ *
+ * Problem description
+ * -------------------
+ * USACO training pages: vans
+ * I came up with a way to solve this by deriving a recurrence, encoding this
+ * recurrence as an 8x8 matrix, and then doing fast exponentiation. It's the
+ * same idea as is given in the USACO solution.
+ * But I didn't actually want to code that up, so instead I cheated by looking
+ * up a simpler recurrence through  OEIS. In retrospect, this wasn't much easier
+ * to implement since I had to additionally implement multiplication and
+ * subtraction for big numbers.
+ */
 #include <bits/stdc++.h>
 using namespace std;
 

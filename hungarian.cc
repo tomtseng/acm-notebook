@@ -1,7 +1,11 @@
-// SPOJ -- SCITIES
-// Info on Hungarian algorithm:
-// https://www.topcoder.com/community/data-science/data-science-tutorials/assignment-problem-and-hungarian-algorithm/
-// http://www.cse.ust.hk/~golin/COMP572/Notes/Matching.pdf
+/*
+ * https://www.topcoder.com/community/data-science/data-science-tutorials/assignment-problem-and-hungarian-algorithm/
+ * http://www.cse.ust.hk/~golin/COMP572/Notes/Matching.pdf
+ *
+ * Problem Description
+ * -------------------
+ * SPOJ -- SCITIES
+ */
 #include <bits/stdc++.h>
 using namespace std;
 

@@ -1,4 +1,8 @@
 /*
+ * Kosaraju's algorithm.
+ *
+ * Problem Description
+ * -------------------
  * Codeforces 427E: Checkposts
  * Just find the minimum cost point in each of the strongly connected
  * components.
@@ -10,10 +14,7 @@ using namespace std;
 typedef vector<int> vi;
 typedef vector<vi> vvi;
 
-/*
- * Strongly connected components using Kosaraju's algorithm.
- * Vertices are 0-indexed.
- */
+// vertices are 0-indexed
 class SCC{
   public:
     SCC(int _n) : n(_n), outs(_n), ins(_n), assignment(_n, -1), visited(_n, false) {}

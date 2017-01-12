@@ -1,7 +1,10 @@
-// Problem:
-// https://open.kattis.com/problems/kinversions
-// FFT notes:
-// http://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/15451-f14/www/lectures/lec27/fft-notes.pdf
+/* 
+ * http://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/15451-f14/www/lectures/lec27/fft-notes.pdf
+ *
+ * Problem Description
+ * -------------------
+ * NAIPC 2016: K-Inversions
+ */
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;

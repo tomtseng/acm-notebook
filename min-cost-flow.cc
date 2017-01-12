@@ -1,4 +1,16 @@
 /* 
+ * Min-cost flow stolen from Stanford's ACM notebook. I don't actually know how
+ * the implementation works, but it runs some form of successive shortest paths
+ * with potentials.
+ *
+ * To see the actual flow, look at positive values in flow matrix.
+ *
+ * Should be able to deal with having both an edge (i,j) and it's reverse (j,i).
+ * Having multiple edges (i,j), however, is not possible.
+ * Negative costs will probably ruin this. Negative cycles are definitely bad.
+ *
+ * Problem Description
+ * -------------------
  * Codeforces 237E: Build String
  * Straightforward min-cost flow. Have 26 nodes represent each of the possible
  * characters. Make each string a node and connect them to the character nodes
@@ -20,17 +32,6 @@ typedef vector<pib> vpib;
 
 const ll INF = numeric_limits<ll>::max() / 4;
 
-/*
- * Min-cost flow taken from Stanford's ACM notebook. I don't actually know how
- * the implementation works, but it runs some form of successive shortest paths
- * with potentials. I also haven't bug-tested it.
- *
- * To see the actual flow, look at positive values in flow matrix.
- *
- * Should be able to deal with having both an edge (i,j) and it's reverse (j,i).
- * Having multiple edges (i,j), however, is not possible.
- * Negative costs will probably ruin this. Negative cycles are definitely bad.
- */
 struct MinCostFlow {
   int n;
   vvl capacities,
@@ -42,9 +43,9 @@ struct MinCostFlow {
   vpib parents; // (parent, direction)
   vector<bool> visited;
 
-  MinCostFlow(int n) :
-    n(n), capacities(n, vl(n, 0)), flows(n, vl(n, 0)), costs(n, vl(n)),
-    dists(n), potentials(n, 0), widths(n), parents(n), visited(n) {}
+  MinCostFlow(int _n) :
+    n(_n), capacities(_n, vl(_n, 0)), flows(_n, vl(_n, 0)), costs(_n, vl(_n)),
+    dists(_n), potentials(_n, 0), widths(_n), parents(_n), visited(_n) {}
 
   void add_edge(int from, int to, ll cap, ll cost) {
     capacities[from][to] = cap;

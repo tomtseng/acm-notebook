@@ -1,5 +1,7 @@
 /*
- * *** Minimum spanning tree for each edge ***
+ * Problem description
+ * -------------------
+ * Codeforces 609E: Minimum spanning tree for each edge 
  * Construct a MST. For every edge in the MST, the minimal weight is obviously
  * the weight of the MST. For an edge (u,v) outside the MST, the minimal weight
  * is [weight of MST] + [weight of edge (u,v)] - [heaviest edge on MST path from

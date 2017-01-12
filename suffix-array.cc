@@ -1,4 +1,11 @@
-// SPOJ SUBST1
+/*
+ * Suffix array computing through prefix-doubling, O(n log^2 n) time. LCP array
+ * is computed through Kasai's algorithm, O(n) time.
+ *
+ * Problem Description
+ * -------------------
+ * SPOJ: SUBST1
+ */
 #include <algorithm>
 #include <iostream>
 using namespace std;
@@ -13,8 +20,6 @@ int sainv[MAXN + 1];
 int lcp[MAXN];
 pair<pair<int, int>, int> sascr[MAXN + 1]; // scratch
 
-// called by compute_sa(), no need to call separately
-// Kasai's algorithm, O(n)
 void compute_lcp(const string &str) {
   const int len = str.size();
 
@@ -35,7 +40,6 @@ inline void compute_sainv(int len) {
     sainv[sa[i]] = i;
 }
 
-// Prefix-doubling, O(n log^2 n)
 void compute_sa(const string& str) {
   const int len = str.size();
   for (int i = 0; i < len; i++)

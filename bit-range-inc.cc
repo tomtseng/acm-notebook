@@ -1,5 +1,10 @@
-// SPOJ - HORRIBLE
-// Range sum and range increment with BITs
+/*
+ * BIT supporting range sum and range increment.
+ *
+ * Problem Description
+ * -------------------
+ * SPOJ: HORRIBLE
+ */
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;

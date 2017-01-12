@@ -1,4 +1,6 @@
 /*
+ * Problem Description
+ * -------------------
  * Codeforces 471D: MUH and Cube Walls 
  * Take the consecutive differences in each wall. Then run your favorite
  * substring finding algorithm (e.g. KMP) on wall differences.

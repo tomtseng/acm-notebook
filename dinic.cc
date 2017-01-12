@@ -1,4 +1,8 @@
-// SPOJ -- FASTFLOW
+/*
+ * Problem Description
+ * -------------------
+ * SPOJ: FASTFLOW
+ */
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;

@@ -1,10 +1,11 @@
 /*
- * Codeforces 432D: Prefixes and Suffixes
- * You can solve this with string hashing, which I learned from
  * https://www.facebook.com/notes/jonathan-paulson/string-hashing/10151240595637184
- *
- * String hashing allows constant time string equality checking (with a small
+ * Useful because it allows constant time string equality checking (with a small
  * probability of error).
+ *
+ * Problem Description
+ * -------------------
+ * Codeforces 432D: Prefixes and Suffixes
  * For each index in the string, find the longest substring starting at the
  * index that matches with the prefix of the string using binary search. Keep a
  * counter that counts the number of longest substrings of a particular length.
@@ -21,7 +22,6 @@ using namespace std;
 #define MAXN 100005
 typedef long long ll;
 
-// lots of globals because I hate myself
 const ll M = 1000000007; // big prime number
 ll H[256]; // hash value of each char
 ll pows[MAXN]; // pows[i] stores 2^i mod M

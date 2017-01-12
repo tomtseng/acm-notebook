@@ -1,4 +1,8 @@
 /*
+ * Stolen from Stanford's ACM notebook.
+ *
+ * Problem Description
+ * -------------------
  * Codeforces 375E: Red and Black Tree
  * No one solved this in-contest. But, unlike the contestants, I have the luxury
  * of looking at the editorial and seeing the solution.
@@ -38,9 +42,6 @@ typedef vector<int> vi;
 const ld EPS = 1e-9;
 
 /*
- * Simplex algorithm
- * (copied from Stanford's ACM code book)
- *
  * maximize   c^T x
  * subject to Ax <= b
  *            x> = 0

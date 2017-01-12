@@ -1,7 +1,15 @@
-// USACO 2015 February Gold: Censoring
-// Note: this implementation times out on this problem because Aho-Corasick is
-// only linear time in an amortized sense, and here we use the data structure
-// "persistently." In this problem, it's not a hard fix, though.
+/*
+ * This only supports lowercase characters.
+ * Nodes are dynamically allocated. For slightly better performance, make them
+ * statically allocated.
+ *
+ * Problem description
+ * -------------------
+ * USACO 2015 February Gold: Censoring
+ * Note: this implementation times out on this problem because Aho-Corasick is
+ * only linear time in an amortized sense, and here we use the data structure
+ * "persistently." In this problem, it's not a hard fix, though.
+ */
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
