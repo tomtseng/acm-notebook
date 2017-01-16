@@ -1,77 +1,107 @@
 /*
- * This only supports lowercase characters.
- * Nodes are dynamically allocated. For slightly better performance, make them
- * statically allocated.
+ * This only supports alphanumeric characters.
  *
  * Problem description
  * -------------------
- * USACO 2015 February Gold: Censoring
- * Note: this implementation times out on this problem because Aho-Corasick is
- * only linear time in an amortized sense, and here we use the data structure
- * "persistently." In this problem, it's not a hard fix, though.
+ * SPOJ: SUB_PROB
+ * The test cases on this problem are weak. I submitted a solution that didn't
+ * deal with some dictionary strings being substrings of one another, and it
+ * passed. Hopefully this implementation below deals with that correctly, but it
+ * hasn't been tested properly.
  */
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
 
-#define cin fin
-#define cout fout
-#define FNAME "censor"
-ifstream fin(FNAME ".in");
-ofstream fout(FNAME ".out");
+struct LLnode {
+  int hitidx;
+  LLnode *next;
 
-struct Node {
-  Node *child[26];
-  Node *fail;
-  int depth; // used in this problem to tell how long the matched string is
-  bool hit;
+  LLnode(int _hitidx, LLnode *_next) : hitidx(_hitidx), next(_next) {}
+};
 
-  Node(int _depth) : depth(_depth), hit(false) {
-    fill(child, child + 26, nullptr);
+struct LL {
+  LLnode *head,
+         *tail;
+
+  LL() : head(nullptr), tail(nullptr) {}
+
+  void push_front(int hitidx) {
+    head = new LLnode(hitidx, head);
+    if (tail == nullptr)
+      tail = head;
+  }
+  void concat(const LL& rhs) {
+    if (head == nullptr) {
+      *this = rhs;
+    } else if (rhs.head != nullptr) {
+      tail->next = rhs.head;
+      tail = rhs.tail;
+    }
+  }
+};
+
+struct Tnode {
+  Tnode *child[62];
+  Tnode *fail;
+  LL hits;
+
+  Tnode() : hits() {
+    fill(child, child + 62, nullptr);
   }
 };
 
 struct Am {
-  Node root;
-  Am() : root(0) {}
+  Tnode root;
+  int convc[256];
+
+  Am() : root() {
+    for (int c = 'a'; c <= 'z'; c++)
+      convc[c] = c - 'a';
+    for (int c = 'A'; c <= 'Z'; c++)
+      convc[c] = c - 'A' + 26;
+    for (int c = '0'; c <= '9'; c++)
+      convc[c] = c - '0' + 52;
+  }
 
   // compute_fail() must be called after all insertions are done
-  void insert(const string& s) {
-    Node *curr = &root;
-    for (auto c : s) {
-      if (curr->child[c - 'a'] == nullptr)
-        curr->child[c - 'a'] = new Node(curr->depth + 1);
-      curr = curr->child[c - 'a'];
+  void insert(const string& s, int id) {
+    Tnode *curr = &root;
+    for (int c : s) {
+      if (curr->child[convc[c]] == nullptr)
+        curr->child[convc[c]] = new Tnode();
+      curr = curr->child[convc[c]];
     }
-    curr->hit = true;
+    curr->hits.push_front(id);
   }
 
   void compute_fail() {
     root.fail = &root;
-    queue<Node *> q;
-    for (int i = 0; i < 26; i++)
+    queue<Tnode *> q;
+    for (int i = 0; i < 62; i++)
       if (root.child[i] != nullptr) {
         root.child[i]->fail = &root;
         q.push(root.child[i]);
       }
 
     while (!q.empty()) {
-      Node *v = q.front();
+      Tnode *v = q.front();
       q.pop();
-      for (int i = 0; i < 26; i++)
+      for (int i = 0; i < 62; i++)
         if (v->child[i] != nullptr) {
-          Node *next = v->child[i];
-          Node *f = v->fail;
+          Tnode *next = v->child[i];
+          Tnode *f = v->fail;
           while (f != f->fail && f->child[i] == nullptr)
             f = f->fail;
           next->fail = f->child[i] == nullptr ? f : f->child[i];
+          next->hits.concat(next->fail->hits);
           q.push(next);
         }
     }
   }
 
-  Node *step(Node *v, int ch) {
-    ch -= 'a';
+  Tnode *step(Tnode *v, int ch) {
+    ch = convc[ch];
     while (v != v->fail && v->child[ch] == nullptr)
       v = v->fail;
     return v->child[ch] == nullptr ? v : v->child[ch];
@@ -80,50 +110,28 @@ struct Am {
 
 Am dfa;
 string hay; // 1-indexed
-Node *states[100001]; // states[i] is state of DFA immediately after processing hay[i]
-int haynxt[100001];
-int hayprv[100001];
+bool ans[1005];
 
 int main() {
-  ios_base::sync_with_stdio(false); fin.tie(nullptr); fout.tie(nullptr);
+  ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
 
   int needles;
   cin >> hay >> needles;
-  int n = hay.size();
-  hay = '$' + hay;
   for (int i = 0; i < needles; i++) {
     string s;
     cin >> s;
-    dfa.insert(s);
+    dfa.insert(s, i);
   }
   dfa.compute_fail();
 
-  for (int i = 0; i <= n; i++)
-    haynxt[i] = i + 1;
-  for (int i = 0; i <= n; i++)
-    hayprv[i] = i - 1;
-
-  states[0] = &dfa.root;
-  int idx = 0;
-  while (idx <= n) {
-    const int next = haynxt[idx];
-    if (states[idx]->hit) {
-      int bidx = idx;
-      const int d = states[idx]->depth;
-      for (int i = 0; i < d; i++)
-        bidx = hayprv[bidx];
-      haynxt[bidx] = next;
-      hayprv[next] = bidx;
-      if (next <= n)
-        states[next] = dfa.step(states[bidx], hay[next]);
-      idx = next;
-    } else {
-      if (next <= n)
-        states[next] = dfa.step(states[idx], hay[next]);
-      idx = next;
-    }
+  Tnode *curr = &dfa.root;
+  for (auto c : hay) {
+    curr = dfa.step(curr, c);
+    for (LLnode *node = curr->hits.head; node != nullptr; node = node->next)
+      ans[node->hitidx] = true;
   }
-  for (int i = haynxt[0]; i <= n; i = haynxt[i])
-    cout << hay[i];
+  for (int i = 0; i < needles; i++)
+    cout << (ans[i] ? 'Y' : 'N') << '\n';
+
   return 0;
 }
