@@ -81,6 +81,7 @@ struct Am {
     for (int i = 0; i < 62; i++)
       if (root.child[i] != nullptr) {
         root.child[i]->fail = &root;
+        root.child[i]->hits.concat(root.hits);
         q.push(root.child[i]);
       }
 
@@ -109,7 +110,7 @@ struct Am {
 };
 
 Am dfa;
-string hay; // 1-indexed
+string hay;
 bool ans[1005];
 
 int main() {
@@ -127,6 +128,9 @@ int main() {
   Tnode *curr = &dfa.root;
   for (auto c : hay) {
     curr = dfa.step(curr, c);
+    // This is potentially O(n^2) if the input string is "aaaaaaaaaaaaaaaa" and
+    // the dictionary strings are "a", "aa", "aaa", .... I think you can fix
+    // this by breaking if ans[node->hitidx] is already set.
     for (LLnode *node = curr->hits.head; node != nullptr; node = node->next)
       ans[node->hitidx] = true;
   }
