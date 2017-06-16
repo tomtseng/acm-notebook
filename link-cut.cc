@@ -3,14 +3,6 @@
 // Path queries are untested.
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-#define DEBUG
-#ifdef DEBUG
-#define TRACE(x) cerr << #x << " = " << x << endl;
-#define _ << " _ " <<
-#else
-#define TRACE(x) ((void)0)
-#endif
 
 class Node {
  public:
