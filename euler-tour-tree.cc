@@ -145,7 +145,8 @@ pair<Node*, Node*> Node::delete_max() {
 //
 // // For each vertex, we'll keep a pointer of an "active" occurrence of that
 // // vertex. For each edge, we'll keep two pointers, one for each place the
-// // edge appears in the Euler tour. These poniters tell us where to split.
+// // edge appears in the Euler tour (we'll call these "active" for the edge
+// // too). These pointers tell us where to split.
 //
 // reroot(r)
 //   (A, B) = split(r)
