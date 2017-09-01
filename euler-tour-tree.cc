@@ -143,6 +143,10 @@ pair<Node*, Node*> Node::delete_max() {
 // split(v)
 //   return [<v],[>=v]
 //
+// // For each vertex, we'll keep a pointer of an "active" occurrence of that
+// // vertex. For each edge, we'll keep two pointers, one for each place the
+// // edge appears in the Euler tour. These poniters tell us where to split.
+//
 // reroot(r)
 //   (A, B) = split(r)
 //   delete min elem of A
@@ -160,10 +164,11 @@ pair<Node*, Node*> Node::delete_max() {
 //   return join(A, B)
 //
 // removeedge(u, v)
+//   // TODO: can we get rid of this reroot?
 //   reroot(u) (this is so the two occurrences of (u,v) appear in right order)
 //   let u* be active u for (u,v), v* be active v for (u,v)
-//   (A,B) = split(u1)
-//   deletemin(B). if this (u1) is active occurrence of u, set active[u] = succ(v*)
+//   (A,B) = split(u*)
+//   deletemin(B). if u* is active occurrence of u, set active[u] = succ(v*)
 //   (_, C) = split(succ(v*))
 //   join(A, C)
 
